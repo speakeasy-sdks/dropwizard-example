@@ -6,6 +6,7 @@ import com.clerk.backend_api.helpers.jwks.RequestState;
 import com.clerk.schema.auth.UserPrincipal;
 import com.clerk.schema.config.ClerkConfig;
 import jakarta.annotation.Priority;
+import jakarta.ws.rs.HttpMethod;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
@@ -29,7 +30,7 @@ public class JwtRequestAuthenticationFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext containerRequestContext) throws IOException {
         try {
 
-            if (containerRequestContext.getMethod().equalsIgnoreCase("OPTIONS")) {
+            if (containerRequestContext.getMethod().equalsIgnoreCase(HttpMethod.OPTIONS)) {
                 return;
             }
 
@@ -78,7 +79,7 @@ public class JwtRequestAuthenticationFilter implements ContainerRequestFilter {
         } catch (Exception e) {
             containerRequestContext.abortWith(
                 Response.status(Response.Status.UNAUTHORIZED)
-                    .entity("Invalid authentication credentials")
+                    .entity("Server failed to authenticate request")
                     .build());
         }
     }

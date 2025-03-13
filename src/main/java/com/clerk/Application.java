@@ -24,6 +24,7 @@ public class Application extends io.dropwizard.core.Application<Configuration> {
 
     @Override
     public void initialize(final Bootstrap<Configuration> bootstrap) {
+        // this is to allow environment variables to be used in the config.yml file
         bootstrap.setConfigurationSourceProvider(
             new SubstitutingSourceProvider(
                 bootstrap.getConfigurationSourceProvider(),
