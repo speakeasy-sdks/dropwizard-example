@@ -1,0 +1,10 @@
+---
+logging:
+  level: INFO
+  loggers:
+    com.clerk: DEBUG
+
+clerk:
+  secretKey: ${CLERK_API_SECRET_KEY}
+  authorizedParties:
+    - http://localhost:5173
