@@ -1,5 +1,6 @@
 package com.clerk.schema.config;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ClerkConfig {
@@ -18,7 +19,7 @@ public class ClerkConfig {
         return authorizedParties;
     }
 
-    public void setAuthorizedParties(List<String> authorizedParties) {
-        this.authorizedParties = authorizedParties;
+    public void setAuthorizedParties(String authorizedParties) {
+        this.authorizedParties = Arrays.asList(authorizedParties.split(","));
     }
 }

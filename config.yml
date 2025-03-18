@@ -6,5 +6,4 @@ logging:
 
 clerk:
   secretKey: ${CLERK_API_SECRET_KEY}
-  authorizedParties:
-    - http://localhost:5173
+  authorizedParties: ${CLERK_AUTHORIZED_PARTIES}
