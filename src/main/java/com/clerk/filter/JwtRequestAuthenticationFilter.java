@@ -39,12 +39,11 @@ public class JwtRequestAuthenticationFilter implements ContainerRequestFilter {
                 AuthenticateRequestOptions.Builder.withSecretKey(clerk.getSecretKey()).authorizedParties(clerk.getAuthorizedParties()).build()
             );
 
-            // If there is any auth error returned by clerk, return a 401, if required we can also cast the error
-            // to either AuthErrorReason or TokenVerificationErrorReason to get more details about the error
-            if (state.reason().isPresent()){
+            if (!state.isSignedIn()){
                 containerRequestContext.abortWith(
                     Response.status(Response.Status.UNAUTHORIZED)
-                        .entity("Invalid authentication credentials")
+                        .header("Content-Type", "application/json")
+                        .entity("{\"detail\": \"" + state.reason().get().message() + "\"}")
                         .build());
             } else {
                 String userId = (String) state.claims().get().get("sub");
@@ -79,7 +78,8 @@ public class JwtRequestAuthenticationFilter implements ContainerRequestFilter {
         } catch (Exception e) {
             containerRequestContext.abortWith(
                 Response.status(Response.Status.UNAUTHORIZED)
-                    .entity("Server failed to authenticate request")
+                    .header("Content-Type", "application/json")
+                    .entity("{\"detail\": \"" + "Unable to authenticate request" + "\"}")
                     .build());
         }
     }
